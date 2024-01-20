@@ -4,21 +4,26 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.DriveTrainSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import java.util.function.Supplier;
 
 /** An example command that uses an example subsystem. */
-public class ExampleCommand extends Command {
+public class TankDrive extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ExampleSubsystem m_subsystem;
+  private final DriveTrainSubsystem m_DriveTrain;
+
+  public final Supplier<Double> m_LeftSpeedSupplier, m_RightSpeedSupplier; 
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ExampleCommand(ExampleSubsystem subsystem) {
-    m_subsystem = subsystem;
+  public TankDrive(DriveTrainSubsystem subsystem, Supplier<Double> LeftSpeed, Supplier<Double> RightSpeed) {
+    m_DriveTrain = subsystem;
+    m_LeftSpeedSupplier = LeftSpeed;
+    m_RightSpeedSupplier = RightSpeed;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -29,7 +34,10 @@ public class ExampleCommand extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    m_DriveTrain.TankDrive(m_LeftSpeedSupplier.get(), m_RightSpeedSupplier.get());
+  }
+
 
   // Called once the command ends or is interrupted.
   @Override
