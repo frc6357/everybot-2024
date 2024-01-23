@@ -27,6 +27,9 @@ public class DriveTrainSubsystem extends SubsystemBase{
         RightFrontMotor = new CANSparkMax(DrivetrainConstants.kRightFrontMotorId, MotorType.kBrushless);
         RightBackMotor = new CANSparkMax(DrivetrainConstants.kRightRearMotorId, MotorType.kBrushless);
 
+        LeftFrontMotor.setInverted(true);
+        LeftBackMotor.setInverted(true);
+
     }
     // Forward if positive value
     // Backwards is negative value
