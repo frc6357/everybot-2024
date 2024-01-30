@@ -19,7 +19,7 @@ public final class Constants {
   public static final class DrivetrainConstants {
     public static final int kLeftRearMotorId = 32;
     public static final int kLeftFrontMotorid = 33;
-    public static final int kRightRearMotorId = 42;
+    public static final int kRightRearMotorId = 40;
     public static final int kRightFrontMotorId = 41;
     public static final boolean kLeftMotorIsInverted = false;
     public static final boolean kRightMotorIsInverted = true;
