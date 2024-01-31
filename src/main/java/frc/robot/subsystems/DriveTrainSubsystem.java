@@ -41,8 +41,8 @@ public class DriveTrainSubsystem extends SubsystemBase{
     // Forward if positive value
     // Backwards is negative value
     // Associate motors with controls
-    public void TankDrive(Double LeftSpeed, Double RightSpeed) {
+    public void ArcadeDrive(Double xSpeed, Double RotationSpeed) {
 
-        differentialDrive.tankDrive(LeftSpeed,RightSpeed);
+        differentialDrive.arcadeDrive(xSpeed,RotationSpeed);
     }
 }

@@ -6,7 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
-import frc.robot.commands.TankDrive;
+import frc.robot.commands.ArcadeDrive;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -51,10 +51,16 @@ public class RobotContainer {
     // cancelling on release.
     //m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     m_DriveTrain.setDefaultCommand(
-      new TankDrive(m_DriveTrain, 
+      new ArcadeDrive(m_DriveTrain, 
       () -> m_driverController.getLeftY(), 
-      () -> m_driverController.getRightY()));
+      () -> m_driverController.getRightX()));
   }
+    //public void teleopPeriodic() {
+      // Drive with arcade drive.
+      // That means that the Y axis drives forward
+      // and backward, and the X turns left and right.
+    // m_robotDrive.ArcadeDrive(m_driverController.getRightX(), m_driverController.getLeftY());
+     // }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
