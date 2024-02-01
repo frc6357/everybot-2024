@@ -1,11 +1,12 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
+import com.ctre.phoenix6.hardware.Pigeon2;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import frc.robot.Constants.DrivetrainConstants;
 
 public class DriveTrainSubsystem extends SubsystemBase{
@@ -22,9 +23,13 @@ public class DriveTrainSubsystem extends SubsystemBase{
     // Instantiate differentialDrive
     DifferentialDrive differentialDrive;
     
+
+    Pigeon2 pigeon;
+
     // Instantiate the controller
     public DriveTrainSubsystem() {
         super();
+        pigeon=new Pigeon2(10);
         LeftFrontMotor = new CANSparkMax(DrivetrainConstants.kLeftFrontMotorid, MotorType.kBrushless);
         LeftBackMotor = new CANSparkMax(DrivetrainConstants.kLeftRearMotorId, MotorType.kBrushless);
         RightFrontMotor = new CANSparkMax(DrivetrainConstants.kRightFrontMotorId, MotorType.kBrushless);
@@ -44,5 +49,13 @@ public class DriveTrainSubsystem extends SubsystemBase{
     public void TankDrive(Double LeftSpeed, Double RightSpeed) {
 
         differentialDrive.tankDrive(LeftSpeed,RightSpeed);
+    }
+    public double getHeading(){
+        return pigeon.getYaw().getValueAsDouble();
+    }
+
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("Heading", getHeading());
     }
 }
