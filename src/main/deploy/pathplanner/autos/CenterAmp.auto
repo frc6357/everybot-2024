@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.5528152568430658,
-      "y": 1.9439988665997294
+      "x": 0.5444403196498717,
+      "y": 3.8678415818370104
     },
-    "rotation": -5.527540151656063
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -14,12 +14,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TaxiPoint+Turn"
+            "pathName": "ScoreAmpCenter"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "ScoreAmp",
   "choreoAuto": false
 }

@@ -1,9 +1,23 @@
 {
-  "robotWidth": 0.9,
-  "robotLength": 0.9,
+  "robotWidth": 0.75,
+  "robotLength": 0.9906,
   "holonomicMode": false,
-  "pathFolders": [],
-  "autoFolders": [],
+  "pathFolders": [
+    "AMP",
+    "ScoreSpeaker1+",
+    "TaxiPoints"
+  ],
+  "autoFolders": [
+    "1pcAuto",
+    "2pcAuto",
+    "3pcAuto",
+    "4pcAuto",
+    "ScoreAmp+3",
+    "ScoreAmp",
+    "ScoreAmp+1",
+    "ScoreAmp+2",
+    "TaxiPoint"
+  ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,

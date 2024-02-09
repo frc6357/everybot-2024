@@ -3,41 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.5599471997802752,
-        "y": 5.53922568614754
+        "x": 0.6431097477579587,
+        "y": 2.141126589945488
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4194171612308972,
-        "y": 5.562647359239103
+        "x": 1.7439283830614203,
+        "y": 2.3636324843153385
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.5787899792620923,
-        "y": 5.53922568614754
+        "x": 1.477971343959805,
+        "y": 5.527514849608872
       },
       "prevControl": {
-        "x": 1.852718113424813,
-        "y": 5.515804013063089
-      },
-      "nextControl": {
-        "x": 3.2497683256199483,
-        "y": 5.560870148926739
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 1.5599471997802752,
-        "y": 5.53922568614754
-      },
-      "prevControl": {
-        "x": 4.557921355500345,
-        "y": 4.567226252847675
+        "x": 3.269729335464376,
+        "y": 5.445538993788402
       },
       "nextControl": null,
       "isLocked": false,
@@ -59,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "ScoreSpeaker1+",
   "previewStartingState": null,
   "useDefaultConstraints": false
 }

@@ -1,0 +1,61 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.41617006310935856,
+      "y": 2.12139270432387
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ScoreAmpLeft"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CollectLeftFromAmp"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ScoreLeft"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CollectCenter"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ScoreCenter"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CollectRight"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ScoreRight"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "ScoreAmp+3",
+  "choreoAuto": false
+}

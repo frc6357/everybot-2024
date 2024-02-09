@@ -1,0 +1,31 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.5444403196498717,
+      "y": 3.8678415818370104
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ScoreAmpCenter"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CollectLeftFromAmp"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "ScoreAmp",
+  "choreoAuto": false
+}
