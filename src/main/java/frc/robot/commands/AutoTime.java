@@ -2,10 +2,10 @@ package frc.robot.commands;
 
 
 import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.commands.TankDrive;
+import frc.robot.commands.VelocityDrive;
 import edu. wpi.first.wpilibj.Timer;
 
-public class AutoTime extends TankDrive {
+public class AutoTime extends VelocityDrive {
 
   private Timer _timer;
   private double end_time;

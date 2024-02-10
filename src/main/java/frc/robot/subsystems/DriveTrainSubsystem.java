@@ -1,18 +1,20 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -80,7 +82,7 @@ public class DriveTrainSubsystem extends SubsystemBase{
         //odometry
         odometry = new DifferentialDriveOdometry(pigeon.getRotation2d(), leftFrontEncoder.getPosition(), rightFrontEncoder.getPosition());
 
-        
+
 
     }
     
@@ -99,6 +101,8 @@ public class DriveTrainSubsystem extends SubsystemBase{
     public void periodic() {
         SmartDashboard.putNumber("Heading", getHeading());
         odometry.update(pigeon.getRotation2d(), leftFrontEncoder.getPosition(), rightFrontEncoder.getPosition());
+        SmartDashboard.putNumber("LeftVelocity", leftFrontEncoder.getVelocity());
+        SmartDashboard.putNumber("RightVelocity", rightFrontEncoder.getVelocity());
     }
     public Pose2d getPose() {
         return odometry.getPoseMeters();
@@ -112,8 +116,28 @@ public class DriveTrainSubsystem extends SubsystemBase{
     }
     public void driveVelocity(ChassisSpeeds speed){
         DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(speed);
+        SmartDashboard.putNumber("LeftVelocity", wheelSpeeds.leftMetersPerSecond);
+        SmartDashboard.putNumber("RightVelocity", wheelSpeeds.rightMetersPerSecond);
         leftPidController.setReference(wheelSpeeds.leftMetersPerSecond, CANSparkMax.ControlType.kVelocity);
         rightPidController.setReference(wheelSpeeds.rightMetersPerSecond, CANSparkMax.ControlType.kVelocity);
+    }
+    public void SetPathPlanner(){
+        AutoBuilder.configureRamsete(
+            this::getPose,
+            this::resetPose,
+            this::getWheelSpeeds,
+            this::driveVelocity,
+            new ReplanningConfig(),
+            () -> {
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()){
+                    return alliance.get() == DriverStation.Alliance.Red;
+
+                }
+                return false;
+            },
+            this
+        );
     }
 
 }
