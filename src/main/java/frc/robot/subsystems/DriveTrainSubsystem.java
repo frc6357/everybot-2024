@@ -5,6 +5,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.ReplanningConfig;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
@@ -63,25 +64,35 @@ public class DriveTrainSubsystem extends SubsystemBase{
         rightFrontEncoder.setPositionConversionFactor(ENCODER_POS_TO_METERS);
         rightFrontEncoder.setVelocityConversionFactor(ENCODER_RPM_TO_MPS);
 
-        leftFrontEncoder.getPosition();
-        LeftFrontMotor.setInverted(true);
-        LeftBackMotor.follow(LeftFrontMotor);
+        
+        SmartDashboard.putNumber("StartPositionLeft", leftFrontEncoder.getPosition());
 
+        RightFrontMotor.setInverted(true);
+        LeftFrontMotor.setInverted(false);
+        
+        LeftBackMotor.follow(LeftFrontMotor);
+        
+        resetEncoders();
+        resetGyro();
         RightBackMotor.follow(RightFrontMotor);
-        differentialDrive = new DifferentialDrive(LeftFrontMotor,RightFrontMotor);
+        //differentialDrive = new DifferentialDrive(LeftFrontMotor,RightFrontMotor);
         
         //Pid setup
         leftPidController = LeftFrontMotor.getPIDController();
         rightPidController = RightFrontMotor.getPIDController();
-        double kP =6e-5;
+        double kP =0.06;
         leftPidController.setP(kP);
         rightPidController.setP(kP);
-        leftPidController.setOutputRange(-1, 1);
-        rightPidController.setOutputRange(-1, 1);
+        leftPidController.setFF(0.1);
+        rightPidController.setFF(0.1);
+        
+
+        // leftPidController.setOutputRange(-1, 1);
+        // rightPidController.setOutputRange(-1, 1);
 
         //odometry
         odometry = new DifferentialDriveOdometry(pigeon.getRotation2d(), leftFrontEncoder.getPosition(), rightFrontEncoder.getPosition());
-
+        SetPathPlanner();
 
 
     }
@@ -96,16 +107,31 @@ public class DriveTrainSubsystem extends SubsystemBase{
     public double getHeading(){
         return pigeon.getYaw().getValueAsDouble();
     }
-
+    public void resetEncoders()
+    {
+        leftFrontEncoder.setPosition(0.0);
+        rightFrontEncoder.setPosition(0.0);
+    }
     @Override
     public void periodic() {
         SmartDashboard.putNumber("Heading", getHeading());
         odometry.update(pigeon.getRotation2d(), leftFrontEncoder.getPosition(), rightFrontEncoder.getPosition());
         SmartDashboard.putNumber("LeftVelocity", leftFrontEncoder.getVelocity());
+        
         SmartDashboard.putNumber("RightVelocity", rightFrontEncoder.getVelocity());
+        SmartDashboard.putNumber("PositionLeft", leftFrontEncoder.getPosition());
+
+        SmartDashboard.putNumber("LeftVoltage", LeftFrontMotor.getAppliedOutput());
+        SmartDashboard.putNumber("RightVoltage", RightFrontMotor.getAppliedOutput());
+        
     }
     public Pose2d getPose() {
         return odometry.getPoseMeters();
+    }
+
+    public void resetGyro()
+    {
+        pigeon.reset();
     }
     public void resetPose(Pose2d pose) {
         odometry.resetPosition(pigeon.getRotation2d(), leftFrontEncoder.getPosition(), rightFrontEncoder.getPosition(),pose);
@@ -116,10 +142,13 @@ public class DriveTrainSubsystem extends SubsystemBase{
     }
     public void driveVelocity(ChassisSpeeds speed){
         DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(speed);
-        SmartDashboard.putNumber("LeftVelocity", wheelSpeeds.leftMetersPerSecond);
-        SmartDashboard.putNumber("RightVelocity", wheelSpeeds.rightMetersPerSecond);
-        leftPidController.setReference(wheelSpeeds.leftMetersPerSecond, CANSparkMax.ControlType.kVelocity);
-        rightPidController.setReference(wheelSpeeds.rightMetersPerSecond, CANSparkMax.ControlType.kVelocity);
+        SmartDashboard.putNumber("LeftVelocitySetpoint", wheelSpeeds.leftMetersPerSecond);
+        SmartDashboard.putNumber("RightVelocitySetpoint", wheelSpeeds.rightMetersPerSecond);
+        REVLibError errorl = leftPidController.setReference(wheelSpeeds.leftMetersPerSecond, CANSparkMax.ControlType.kVelocity);
+        REVLibError errorr = rightPidController.setReference(wheelSpeeds.rightMetersPerSecond, CANSparkMax.ControlType.kVelocity);
+        SmartDashboard.putString("Lefterror", errorl.toString());
+        SmartDashboard.putString("Righterror", errorr.toString());
+        
     }
     public void SetPathPlanner(){
         AutoBuilder.configureRamsete(

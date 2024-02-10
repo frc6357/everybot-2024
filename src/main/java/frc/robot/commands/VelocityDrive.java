@@ -36,7 +36,7 @@ public class VelocityDrive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_DriveTrain.driveVelocity(new ChassisSpeeds(m_LeftSpeedSupplier.get(), m_RightSpeedSupplier.get(), 0.0));
+    m_DriveTrain.driveVelocity(new ChassisSpeeds(m_LeftSpeedSupplier.get(), 0.0, m_RightSpeedSupplier.get()));
   }
 
 

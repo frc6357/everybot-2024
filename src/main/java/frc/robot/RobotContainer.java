@@ -4,20 +4,17 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.VelocityDrive;
-import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 
-import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.VelocityDrive;
+import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.ExampleSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -63,8 +60,8 @@ public class RobotContainer {
     //m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     m_DriveTrain.setDefaultCommand(
       new VelocityDrive(m_DriveTrain, 
-      () -> m_driverController.getLeftY(), 
-      () -> m_driverController.getRightY()));
+      () -> m_driverController.getLeftY() * -3, 
+      () -> m_driverController.getRightY() * -3));
   }
 
   /**
