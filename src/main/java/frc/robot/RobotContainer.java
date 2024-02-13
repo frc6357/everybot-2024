@@ -49,26 +49,19 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    //m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     m_DriveTrain.setDefaultCommand(
       new ArcadeDrive(m_DriveTrain, 
-      () -> m_driverController.getLeftY(), 
-      () -> m_driverController.getRightX()));
+      () -> m_driverController.getLeftY()*(m_driverController.getHID().getBButtonPressed()?0.5:1.0), 
+      () -> m_driverController.getRightX()*(m_driverController.getHID().getBButtonPressed()?0.5:1.0)));
+      
   }
-    //public void teleopPeriodic() {
-      // Drive with arcade drive.
-      // That means that the Y axis drives forward
-      // and backward, and the X turns left and right.
-    // m_robotDrive.ArcadeDrive(m_driverController.getRightX(), m_driverController.getLeftY());
-     // }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    
+
     // An example command will be run in autonomous
     return Autos.exampleAuto(m_exampleSubsystem);
   }

@@ -1,11 +1,9 @@
 package frc.robot.subsystems;
-
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
 import frc.robot.Constants.DrivetrainConstants;
 
 public class DriveTrainSubsystem extends SubsystemBase{
@@ -34,15 +32,14 @@ public class DriveTrainSubsystem extends SubsystemBase{
         LeftBackMotor.follow(LeftFrontMotor);
 
         RightBackMotor.follow(RightFrontMotor);
-
+ 
         differentialDrive = new DifferentialDrive(LeftFrontMotor,RightFrontMotor);
     }
-    
     // Forward if positive value
     // Backwards is negative value
     // Associate motors with controls
+    
     public void ArcadeDrive(Double xSpeed, Double RotationSpeed) {
-
         differentialDrive.arcadeDrive(xSpeed,RotationSpeed);
     }
 }
