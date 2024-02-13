@@ -73,15 +73,14 @@ public class RobotContainer {
               m_DriveTrain = Optional.of(new DriveTrainSubsystem());
             }
             
-            // if (subsystems.isDrivePresent())
-            // {
-            //     driveSubsystem = Optional.of(new SK23Drive());
+            
+    
 
-            //     // Configures the autonomous paths and smartdashboard chooser
+            //     Configures the autonomous paths and smartdashboard chooser
             //     new SK23AutoGenerator(driveSubsystem.get(), armSubsystem, intakeSubsystem);
             //     autoCommandSelector = AutoBuilder.buildAutoChooser();
             //     SmartDashboard.putData("Auto Chooser", autoCommandSelector);
-            // }
+            
             
         }
         catch (IOException e)

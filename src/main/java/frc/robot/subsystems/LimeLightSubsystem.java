@@ -13,6 +13,7 @@ public class LimeLightSubsystem extends SubsystemBase {
         //double tx = LimelightHelpers.getTX("");
         limeLight = NetworkTableInstance.getDefault();
         limeLightDataTable = limeLight.getTable("datatable");
+        limeLightDataTable.getEntry("pipeline").setNumber(0);
     }
 
     public Boolean TargetPresent() {
