@@ -24,4 +24,6 @@ public final class Constants {
     public static final boolean kLeftMotorIsInverted = false;
     public static final boolean kRightMotorIsInverted = true;
   }
+
+  public static final String SUBSYSTEMFILE = "Subsystems.json";
 }
