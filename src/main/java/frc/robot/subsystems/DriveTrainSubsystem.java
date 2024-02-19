@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DrivetrainConstants;
+import frc.robot.commands.VelocityDrive;
 
 public class DriveTrainSubsystem extends SubsystemBase{
     // velocity factor is determined by (1/60)*(1/GearReduction)* pi(wheelDiameter)
@@ -27,7 +28,7 @@ public class DriveTrainSubsystem extends SubsystemBase{
     //position factor is determined by (1/GearReduction)* pi(wheelDiameter) or for now velocity factor*60
     private static final double ENCODER_POS_TO_METERS = ENCODER_RPM_TO_MPS*60;
 
-    public double power_factor = 0.3;
+    public double power_factor = 0.6;
     // Four motors
     // Instantiate LeftFrontMotor
     CANSparkMax LeftFrontMotor; 
@@ -69,8 +70,8 @@ public class DriveTrainSubsystem extends SubsystemBase{
         
         SmartDashboard.putNumber("StartPositionLeft", leftFrontEncoder.getPosition());
 
-        RightFrontMotor.setInverted(true);
-        LeftFrontMotor.setInverted(false);
+        RightFrontMotor.setInverted(DrivetrainConstants.kRightMotorIsInverted);
+        LeftFrontMotor.setInverted(DrivetrainConstants.kLeftMotorIsInverted);
         
         LeftBackMotor.follow(LeftFrontMotor);
         
@@ -103,8 +104,8 @@ public class DriveTrainSubsystem extends SubsystemBase{
     // Backwards is negative value
     // Associate motors with controls
     public void TankDrive(Double LeftSpeed, Double RightSpeed) {
-
-        differentialDrive.tankDrive(LeftSpeed*power_factor,RightSpeed*power_factor);
+        DifferentialDriveWheelSpeeds wheelSpeeds = new DifferentialDriveWheelSpeeds(LeftSpeed*power_factor,RightSpeed*power_factor);
+        driveVelocity(kinematics.toChassisSpeeds(wheelSpeeds));
     }
     public double getHeading(){
         return pigeon.getYaw().getValueAsDouble();
