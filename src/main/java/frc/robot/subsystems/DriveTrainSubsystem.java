@@ -26,6 +26,8 @@ public class DriveTrainSubsystem extends SubsystemBase{
     private static final double ENCODER_RPM_TO_MPS = 0.0009433714051;
     //position factor is determined by (1/GearReduction)* pi(wheelDiameter) or for now velocity factor*60
     private static final double ENCODER_POS_TO_METERS = ENCODER_RPM_TO_MPS*60;
+
+    public double power_factor = 0.3;
     // Four motors
     // Instantiate LeftFrontMotor
     CANSparkMax LeftFrontMotor; 
@@ -102,7 +104,7 @@ public class DriveTrainSubsystem extends SubsystemBase{
     // Associate motors with controls
     public void TankDrive(Double LeftSpeed, Double RightSpeed) {
 
-        differentialDrive.tankDrive(LeftSpeed,RightSpeed);
+        differentialDrive.tankDrive(LeftSpeed*power_factor,RightSpeed*power_factor);
     }
     public double getHeading(){
         return pigeon.getYaw().getValueAsDouble();
