@@ -1,0 +1,31 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7284778050297884,
+      "y": 7.026501927468906
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeftTurn"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "TaxiPoint",
+  "choreoAuto": false
+}

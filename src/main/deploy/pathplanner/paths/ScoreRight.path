@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.537562767433229,
+        "y": 4.02571266680995
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.3005555637469244,
+        "y": 3.8396659002802584
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.471932943865889,
+        "y": 5.515621031242063
+      },
+      "prevControl": {
+        "x": 2.1626189406224983,
+        "y": 5.505754088431254
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "ScoreSpeaker1+",
+  "previewStartingState": null,
+  "useDefaultConstraints": false
+}

@@ -1,0 +1,31 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7417791758660457,
+      "y": 7.074597995349838
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeftScore1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeaveFromSpeaker"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "1pcAuto",
+  "choreoAuto": false
+}

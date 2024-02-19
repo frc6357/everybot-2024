@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.6431097477579587,
+      "y": 2.141126589945488
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RightScore1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CollectCenter"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ScoreCenter"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "CollectLeft"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "ScoreLeft"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "3pcAuto",
+  "choreoAuto": false
+}
