@@ -1,7 +1,7 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
+// add SUBSYSTEMFILE to constances file
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -12,9 +12,21 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.VelocityDrive;
 import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
+import java.io.File;
+import java.io.IOException;
+import java.util.Optional;
+
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.commands.TankDrive;
+import frc.robot.subsystems.LimeLightSubsystem;
+import frc.robot.utils.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -23,9 +35,8 @@ import frc.robot.subsystems.ExampleSubsystem;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final DriveTrainSubsystem m_DriveTrain = new DriveTrainSubsystem();
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private Optional<DriveTrainSubsystem>  m_DriveTrain  = Optional.empty();
+  private Optional<LimeLightSubsystem>  m_LimeLightSubsystem  = Optional.empty();
 
   private final SendableChooser<Command> autoChooser;
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -35,11 +46,55 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
+    configureSubsystems();
     configureBindings();
 
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
   }
+
+  private void configureSubsystems()
+    {
+        File deployDirectory = Filesystem.getDeployDirectory();
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonFactory factory = new JsonFactory();
+
+        try
+        {
+            // Looking for the Subsystems.json file in the deploy directory
+            JsonParser parser =
+                    factory.createParser(new File(deployDirectory, Constants.SUBSYSTEMFILE));
+            
+            SubsystemControls subsystems = mapper.readValue(parser, SubsystemControls.class);
+
+            // Instantiating subsystems if they are present
+            // This is decided by looking at Subsystems.json
+            if (subsystems.islimelightPresent())
+            {
+              m_LimeLightSubsystem = Optional.of(new LimeLightSubsystem());
+            }
+
+            if(subsystems.isdrivePresent())
+            {
+              m_DriveTrain = Optional.of(new DriveTrainSubsystem());
+            }
+            
+            
+    
+
+            //     Configures the autonomous paths and smartdashboard chooser
+            //     new SK23AutoGenerator(driveSubsystem.get(), armSubsystem, intakeSubsystem);
+            //     autoCommandSelector = AutoBuilder.buildAutoChooser();
+            //     SmartDashboard.putData("Auto Chooser", autoCommandSelector);
+            
+            
+        }
+        catch (IOException e)
+        {
+            DriverStation.reportError("Failure to read Subsystem Control File!", e.getStackTrace());
+        }
+    }
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -58,10 +113,19 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     //m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-    m_DriveTrain.setDefaultCommand(
-      new VelocityDrive(m_DriveTrain, 
-      () -> m_driverController.getLeftY() * -3, 
-      () -> m_driverController.getRightY() * -3));
+    if(m_LimeLightSubsystem.isPresent()){
+      LimeLightSubsystem limelight = m_LimeLightSubsystem.get();
+      m_driverController.a().onTrue(new InstantCommand(() -> limelight.GetRobotPosition()));
+    }
+
+    if(m_DriveTrain.isPresent())
+    {
+      DriveTrainSubsystem drive = m_DriveTrain.get();
+      drive.setDefaultCommand(
+        new TankDrive(drive, 
+        () -> m_driverController.getLeftY(), 
+        () -> m_driverController.getRightY()));
+    }
   }
 
   /**
@@ -73,5 +137,6 @@ public class RobotContainer {
     
     // An example command will be run in autonomous
     return autoChooser.getSelected();
+
   }
 }
